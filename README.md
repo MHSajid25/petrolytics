@@ -20,6 +20,11 @@ data/
 - Handles basic log preprocessing
 - Designed for integration into petrophysical workflows
 
+### Tornado Chart (Sensitivity Analysis)
+- Visualizes impact of key parameters on output
+- Supports reservoir and petrophysical uncertainty analysis
+- Helps identify dominant variables in evaluation workflows
+
 ## Use Cases
 
 - Well log interpretation and analysis
