@@ -1,38 +1,20 @@
-from log_reader import read_log_data
-from plot_logs import plot_gr_vsh
+import csv
 
-def calculate_vsh(gr, gr_min, gr_max):
-    """
-    Calculate Volume of Shale (Vsh) using linear method.
-    """
-    if gr_max == gr_min:
-        return 0
+def read_log_data(file_path):
+    data = []
 
-    vsh = (gr - gr_min) / (gr_max - gr_min)
-    return max(0, min(vsh, 1))
+    try:
+        with open(file_path, 'r') as file:
+            reader = csv.DictReader(file)
 
+            for row in reader:
+                data.append({
+                    "depth": float(row["depth"]),
+                    "gr": float(row["gr"])
+                })
 
-def process_log(file_path, gr_min, gr_max):
-    data = read_log_data(file_path)
+        return data
 
-    results = []
-
-    for row in data:
-        vsh = calculate_vsh(row["gr"], gr_min, gr_max)
-        results.append({
-            "depth": row["depth"],
-            "gr": row["gr"],
-            "vsh": vsh
-        })
-
-    return results
-
-
-if __name__ == "__main__":
-    file_path = "data/sample_logs.csv"
-    results = process_log(file_path, 20, 120)
-
-    for r in results[:5]:
-        print(r)
-
-    plot_gr_vsh(results)
+    except Exception as e:
+        print(f"Error reading file: {e}")
+        return []
