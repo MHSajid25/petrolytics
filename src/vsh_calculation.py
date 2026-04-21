@@ -34,3 +34,5 @@ if __name__ == "__main__":
 
     for r in results[:5]:
         print(r)
+
+    plot_gr_vsh(results)
