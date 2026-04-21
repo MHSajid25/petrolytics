@@ -1,4 +1,5 @@
 from log_reader import read_log_data
+from plot_logs import plot_gr_vsh
 
 def calculate_vsh(gr, gr_min, gr_max):
     """
