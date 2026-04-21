@@ -1,14 +1,8 @@
+from log_reader import read_log_data
+
 def calculate_vsh(gr, gr_min, gr_max):
     """
     Calculate Volume of Shale (Vsh) using linear method.
-
-    Parameters:
-    gr (float): Gamma Ray value
-    gr_min (float): Clean sand GR value
-    gr_max (float): Shale GR value
-
-    Returns:
-    float: Vsh value
     """
     if gr_max == gr_min:
         return 0
@@ -17,11 +11,25 @@ def calculate_vsh(gr, gr_min, gr_max):
     return max(0, min(vsh, 1))
 
 
-if __name__ == "__main__":
-    # Example values
-    gr = 85
-    gr_min = 20
-    gr_max = 120
+def process_log(file_path, gr_min, gr_max):
+    data = read_log_data(file_path)
 
-    vsh = calculate_vsh(gr, gr_min, gr_max)
-    print(f"Calculated Vsh: {vsh:.2f}")
+    results = []
+
+    for row in data:
+        vsh = calculate_vsh(row["gr"], gr_min, gr_max)
+        results.append({
+            "depth": row["depth"],
+            "gr": row["gr"],
+            "vsh": vsh
+        })
+
+    return results
+
+
+if __name__ == "__main__":
+    file_path = "data/sample_logs.csv"
+    results = process_log(file_path, 20, 120)
+
+    for r in results[:5]:
+        print(r)
